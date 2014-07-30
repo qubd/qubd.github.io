@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+<br>
+<br>
+<br>
+
+<center>
+<canvas id="canvas" width="1000" height="700">
+Your browser does not support the canvas element.
+</canvas>
+</center>
+
+<script type="text/javascript" src="jquery-1.5.1.min.js"></script> 
+<script type="text/javascript" src="jquery-ui-1.8.12.custom.min.js"></script>
+<link href="jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript">
+
+//Interactive Z-table by Evan Haldane & Brendan Cordy
+
+var mycanvas=document.getElementById("canvas");
+var context=mycanvas.getContext("2d");
+
+//Set dimensions of the canvas
+var width = 1000;
+var height = 500;
+
+//Set range of z values
+var zMin = -4.0;
+var zMax = 4.0;
+var zRange = zMax - zMin;
+var yMax = 1.111*0.398942;
+
+//Initial pixel positions of left and right points
+var zPixelLeft = 255;
+var zPixelRight = 745;
+
+//Initial z values of left and right points
+var zLeft = zMin + zPixelLeft/width*zRange;
+var zRight = zMin + zPixelRight/width*zRange;
+
+//Both points begin stuck to the canvas
+var isStuckL = true;
+var isStuckR = true;
+var mouseX = 0;
+var ypos = 0;
+
+//Both points begin with finite z values
+var leftIsInfinity = 0;
+var rightIsInfinity = 0;
+
+function stdNormCumProb(x){
+	if (x<0){
+		return 1-stdNormCumProb(-x);
+	}
+	else if (x===0){
+		return 0.5;
+	}
+	else{
+		var b0 = 0.2316419;
+		var b1 = 0.319381530;
+		var b2 = -0.356563782;
+		var b3 = 1.781477937;
+		var b4 = -1.821255978;
+		var b5 = 1.330274429;
+		var t = 1/(1+b0*x);
+		
+		return 1-normPdf(x,0,1)*(b1*t+b2*Math.pow(t,2)+b3*Math.pow(t,3)+b4*Math.pow(t,4)+b5*Math.pow(t,5));
+	}
+}
+
+function normPdf(x, m,s){
+	return 0.39894228/s*Math.exp(-0.5*((x-m)/s)*((x-m)/s));
+}
+
+function drawNormDist(m, s, colour){
+	
+	context.lineWidth = 3;
+	context.strokeStyle = colour;
+	
+	var y = normPdf(zMin, m, s);
+	var yPixel = (height-7)*(1 - y/yMax);
+	
+	context.beginPath();
+	context.moveTo(0,yPixel);
+	
+	for(i=0; i<=width; i++){
+	
+		var z = zMin + i/width*zRange;
+		y = normPdf(z,0,1);
+		yPixel = (height-7)*(1 - y/yMax);
+		
+		context.lineTo(i,yPixel);
+	}
+	context.stroke();
+}
+
+function fillCenter(m,s,zL,zR,colour){
+
+	context.strokeStyle = colour;
+
+	//Ensure that zL is smaller than zR
+	if(zR<zL){
+
+		var tmp = zL;
+		zL = zR;
+		zR = tmp;
+	}
+	
+	//Fill from left to right
+	for(i=zL; i<=zR; i++){
+	
+		var z = zMin + i/width*zRange;
+		var y = normPdf(z,0,1);
+		var yPixel = (height-7)*(1 - y/yMax);
+		
+		context.beginPath();
+		context.moveTo(i, yPixel);
+		context.lineTo(i, height-7);
+		context.stroke();
+	}
+}
+
+function evaluateArea(zL,zR){
+
+	if(leftIsInfinity === 0 && rightIsInfinity === 0){
+
+		if(zR<zL){
+
+			var tmp = zL;
+			zL = zR;
+			zR = tmp;
+		}
+		return (Math.round(10000*(stdNormCumProb(zR)-stdNormCumProb(zL)))/10000);
+	}
+	else if(leftIsInfinity === -1 && rightIsInfinity === 0){
+
+		return (Math.round(10000*(stdNormCumProb(zR)))/10000);
+	}
+	else if(leftIsInfinity === 1 && rightIsInfinity === 0){
+
+		return (Math.round(10000*(1-stdNormCumProb(zR)))/10000);
+	}
+	else if(leftIsInfinity === 0 && rightIsInfinity === 1){
+
+		return (Math.round(10000*(1-stdNormCumProb(zL)))/10000);
+	}
+	else if(leftIsInfinity === 0 && rightIsInfinity === -1){
+
+		return (Math.round(10000*(stdNormCumProb(zL)))/10000);
+	}
+	else{
+
+		return 1;
+	}
+}
+
+function drawFullAxis(){
+
+	context.beginPath();
+	context.moveTo(15,height-5+10);
+	context.lineTo(0,height-5);
+	context.lineTo(15,height-5-10);
+
+	context.moveTo(0,height-5);
+	context.lineTo(width,height-5);
+
+	context.moveTo(width-15,height-5+10);
+	context.lineTo(width,height-5);
+	context.lineTo(width-15,height-5-10);
+	context.closePath();
+}
+
+function draw(){
+	
+	mycanvas.width=mycanvas.width;
+	
+	fillCenter(0,1,zPixelLeft,zPixelRight,"#21ADDB");
+	drawNormDist(0,1, "#2B65EC");
+	
+	context.lineWidth=4;
+	context.strokeStyle = "#000";
+	context.beginPath();
+	context.moveTo(0,height-5);
+	context.lineTo(width, height-5);
+	context.stroke();
+	
+	//Left point at -infinity
+	if(zPixelLeft < 20){
+		
+		if(zPixelRight > width-20){
+
+			drawFullAxis();
+
+			leftIsInfinity = -1;
+			rightIsInfinity = 1;
+		}
+		else{
+			//Draw the point and the interval
+			context.beginPath();
+			context.arc(zPixelRight, height-5, 7, 0, Math.PI * 2, false);
+			context.lineTo(0,height-5);
+			context.moveTo(15,height-5+10);
+			context.lineTo(0,height-5);
+			context.lineTo(15,height-5-10);
+			context.closePath();
+
+			leftIsInfinity = -1;
+			rightIsInfinity = 0;
+
+			//Write the z value underneath
+			context.font = "bold 22px sans-serif";
+			context.textAlign = "center";
+			context.fillStyle = '#FF0000';
+			context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+		}
+	}
+	//Right point at -infinity
+	else if(zPixelRight < 20){
+
+		if(zPixelLeft > width-20){
+
+			drawFullAxis();
+
+			leftIsInfinity = 1;
+			rightIsInfinity = -1;
+		}
+		else{
+			//Draw the point and the interval
+			context.beginPath();
+			context.arc(zPixelLeft, height-5, 7, 0, Math.PI * 2, false);
+			context.lineTo(0,height-5);
+			context.moveTo(15,height-5+10);
+			context.lineTo(0,height-5);
+			context.lineTo(15,height-5-10);
+			context.closePath();
+
+			leftIsInfinity = 0;
+			rightIsInfinity = -1;
+
+			//Write the z value underneath
+			context.font = "bold 22px sans-serif";
+			context.textAlign = "center";
+			context.fillStyle = '#FF0000';
+			context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+
+		}
+	}
+	//Left point at infinity
+	else if(zPixelLeft > width-20){
+
+		if(zPixelRight < 20){
+
+			drawFullAxis();
+
+			leftIsInfinity = 1;
+			rightIsInfinity = -1;
+		}
+		else{
+			//Draw the point and the interval
+			context.beginPath();
+			context.arc(zPixelRight, height-5, 7, 0, Math.PI * 2, false);
+			context.lineTo(width,height-5);
+			context.moveTo(width-15,height-5+10);
+			context.lineTo(width,height-5);
+			context.lineTo(width-15,height-5-10);
+			context.closePath();
+
+			leftIsInfinity = 1;
+			rightIsInfinity = 0;
+
+			//Write the z value underneath
+			context.font = "bold 22px sans-serif";
+			context.textAlign = "center";
+			context.fillStyle = '#FF0000';
+			context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+		}
+	}
+	//Right point at infinity
+	else if(zPixelRight > width-20){
+
+		if(zPixelLeft < 20){
+
+			drawFullAxis();
+
+			leftIsInfinity = -1;
+			rightIsInfinity = 1;
+		}
+		else{
+			//Draw the point and the interval
+			context.beginPath();
+			context.arc(zPixelLeft, height-5, 7, 0, Math.PI * 2, false);
+			context.lineTo(width,height-5);
+			context.moveTo(width-15,height-5+10);
+			context.lineTo(width,height-5);
+			context.lineTo(width-15,height-5-10);
+			context.closePath();
+
+			leftIsInfinity = 0;
+			rightIsInfinity = 1;
+
+			//Write the z value underneath
+			context.font = "bold 22px sans-serif";
+			context.textAlign = "center";
+			context.fillStyle = '#FF0000';
+			context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+
+		}
+	}
+	//Both points finite
+	else{
+		//Draw both points
+		context.beginPath();
+		context.arc(zPixelLeft, height-5, 7, 0, Math.PI * 2, false);
+		context.arc(zPixelRight, height-5, 7, 0, Math.PI * 2, false);
+		context.closePath();
+
+		leftIsInfinity = 0;
+		rightIsInfinity = 0;
+
+		//Write the z values underneath
+		context.font = "bold 22px sans-serif";
+		context.textAlign = "center";
+		context.fillStyle = '#FF0000';
+		context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+
+		context.font = "bold 22px sans-serif";
+		context.textAlign = "center";
+		context.fillStyle = '#FF0000';
+		context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+	}
+	
+	context.strokeStyle = '#FF0000';
+	context.stroke();
+	
+	context.fillStyle = '#FF0000';
+	context.fill();
+
+	//Write the value of the blue area
+	context.font = "bold 28px sans-serif";
+	context.textAlign = "left";
+	context.fillStyle = "#21ADDB";
+	context.fillText('Area: ' + evaluateArea(zLeft,zRight), 0.75*width, 0.25*height+80);
+}
+
+
+function mouseMoveHandler(event){
+	
+	//If the left point was clicked
+	if (!isStuckL) {
+		zPixelLeft = mouseX;
+		zLeft = zMin + zPixelLeft/width*zRange;
+		draw();
+	}
+	//If the right point was clicked
+	if (!isStuckR) {
+		zPixelRight = mouseX;
+		zRight = zMin + zPixelRight/width*zRange;
+		draw();
+	}
+}
+
+function mouseClickHandler(event){
+
+	var distFromZLeft = Math.abs((mouseX) - zPixelLeft);
+	var distFromZRight = Math.abs((mouseX) - zPixelRight);
+
+	//If the click happened near both points, take the right one
+	if (distFromZLeft < 40 && distFromZRight < 40){
+		isStuckL = true;
+		isStuckR = false;
+
+		isStuckR = false;
+		zPixelRight = mouseX;
+		zRight = zMin + zPixelRight/width*zRange;
+		
+		draw();
+	}
+	//Otherwise there is no ambiguity as to which point was clicked
+	else{
+		//If the click happened near the left point, which is currently stuck
+		if (isStuckL && distFromZLeft < 40){
+			isStuckL = false;
+			zPixelLeft = mouseX;
+			zLeft = zMin + zPixelLeft/width*zRange;
+		
+			draw();
+		}
+		//Otherwise, keep the point stuck
+		else{
+			isStuckL = true;
+		}
+
+		//If the click happened near the right point, whcih is currently stuck
+		if (isStuckR && distFromZRight < 40){
+			isStuckR = false;
+			zPixelRight = mouseX;
+			zRight = zMin + zPixelRight/width*zRange;
+		
+			draw();
+		}
+		//Otherwise, keep the point stuck
+		else{
+			isStuckR = true;
+		}
+	}
+}	
+ 
+$(document).ready(function(){
+	
+	var canvas = $('#canvas');
+	canvas.bind('mousemove', mouseMoveHandler);
+	canvas.bind('click', mouseClickHandler);
+	draw();
+
+	$('#canvas').mousemove(function(e){
+    		mouseX = e.pageX-$('#canvas').offset().left;
+	});
+}); 
+ 
+</script>
+
+</body>
+</html>
