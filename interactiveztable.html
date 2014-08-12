@@ -1,7 +1,11 @@
 <!DOCTYPE HTML>
 <html>
+<head>
+<meta charset="UTF-8">
+</head>
 <body>
 
+<br>
 <br>
 <br>
 <br>
@@ -214,7 +218,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+			context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
 		}
 	}
 	//Right point at -infinity
@@ -244,7 +248,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+			context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
 
 		}
 	}
@@ -275,7 +279,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+			context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
 		}
 	}
 	//Right point at infinity
@@ -305,7 +309,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+			context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
 
 		}
 	}
@@ -324,12 +328,12 @@ function draw(){
 		context.font = "bold 22px sans-serif";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
-		context.fillText((Math.round(10000*zLeft)/10000), zPixelLeft, 0.95*height + 80);
+		context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
 
 		context.font = "bold 22px sans-serif";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
-		context.fillText((Math.round(10000*zRight)/10000), zPixelRight, 0.95*height + 80);
+		context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
 	}
 	
 	context.strokeStyle = '#FF0000';
@@ -342,7 +346,45 @@ function draw(){
 	context.font = "bold 28px sans-serif";
 	context.textAlign = "left";
 	context.fillStyle = "#21ADDB";
-	context.fillText('Area: ' + evaluateArea(zLeft,zRight), 0.75*width, 0.25*height+80);
+
+	if(leftIsInfinity === 0 && rightIsInfinity === 0){
+
+		zL=zLeft;
+		zR=zRight;
+		if(zR<zL){
+
+			var tmp = zL;
+			zL = zR;
+			zR = tmp;
+		}
+		zR=zR.toFixed(2)
+		zL=zL.toFixed(2)
+		context.fillText('P(' + zL + ' < z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.635*width, 0.12*height+80);
+	}
+	else if(leftIsInfinity === -1 && rightIsInfinity === 0){
+
+		zR=zRight.toFixed(2)
+		context.fillText('P(z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+	}
+	else if(leftIsInfinity === 1 && rightIsInfinity === 0){
+
+		zR=zRight.toFixed(2)
+		context.fillText('P(z > ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+	}
+	else if(leftIsInfinity === 0 && rightIsInfinity === 1){
+
+		zL=zLeft.toFixed(2)
+		context.fillText('P(z > ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+	}
+	else if(leftIsInfinity === 0 && rightIsInfinity === -1){
+
+		zL=zLeft.toFixed(2)
+		context.fillText('P(z < ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+	}
+	else{
+
+		context.fillText('P(-∞ < z < ∞) = 1.0000', 0.64*width, 0.12*height+80);	
+	}
 }
 
 
