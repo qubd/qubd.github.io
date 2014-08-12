@@ -177,6 +177,20 @@ function drawFullAxis(){
 	context.closePath();
 }
 
+//Converts floats to strings with two decimal places, zero being the exception
+function niceRound(n){
+	r = n.toFixed(2);
+	if(r==='0.00'){
+		return '0';
+	}
+	else if(r==='-0.00'){
+		return '0';
+	}
+	else{
+		return r;
+	}
+}
+
 function draw(){
 	
 	mycanvas.width=mycanvas.width;
@@ -218,7 +232,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
+			context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
 		}
 	}
 	//Right point at -infinity
@@ -248,7 +262,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
+			context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
 
 		}
 	}
@@ -279,7 +293,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
+			context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
 		}
 	}
 	//Right point at infinity
@@ -309,7 +323,7 @@ function draw(){
 			context.font = "bold 22px sans-serif";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
-			context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
+			context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
 
 		}
 	}
@@ -328,12 +342,12 @@ function draw(){
 		context.font = "bold 22px sans-serif";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
-		context.fillText(zLeft.toFixed(2), zPixelLeft, 0.95*height + 80);
+		context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
 
 		context.font = "bold 22px sans-serif";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
-		context.fillText(zRight.toFixed(2), zPixelRight, 0.95*height + 80);
+		context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
 	}
 	
 	context.strokeStyle = '#FF0000';
@@ -347,6 +361,7 @@ function draw(){
 	context.textAlign = "left";
 	context.fillStyle = "#21ADDB";
 
+	//Lots of finicking to deal with infinity and zero cases
 	if(leftIsInfinity === 0 && rightIsInfinity === 0){
 
 		zL=zLeft;
@@ -357,33 +372,62 @@ function draw(){
 			zL = zR;
 			zR = tmp;
 		}
-		zR=zR.toFixed(2)
-		zL=zL.toFixed(2)
-		context.fillText('P(' + zL + ' < z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.635*width, 0.12*height+80);
+		zR=niceRound(zR);
+		zL=niceRound(zL);
+
+		if (zL === '0'){
+			context.fillText('P(0 < z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.635*width, 0.12*height+80);
+		}
+		else if (zR === '0'){
+			context.fillText('P(' + zL + ' < z < 0) = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.635*width, 0.12*height+80);
+		}
+		else{
+			context.fillText('P(' + zL + ' < z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.635*width, 0.12*height+80);
+		}
 	}
 	else if(leftIsInfinity === -1 && rightIsInfinity === 0){
 
-		zR=zRight.toFixed(2)
-		context.fillText('P(z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		zR=niceRound(zRight);
+		if (zR === '0'){
+			context.fillText('P(z < 0) = 0.5000', 0.67*width, 0.12*height+80);
+		}
+		else{
+			context.fillText('P(z < ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		}
 	}
 	else if(leftIsInfinity === 1 && rightIsInfinity === 0){
 
-		zR=zRight.toFixed(2)
-		context.fillText('P(z > ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		zR=niceRound(zRight);
+		if (zR === '0'){
+			context.fillText('P(z > 0) = 0.5000', 0.67*width, 0.12*height+80);
+		}
+		else{
+			context.fillText('P(z > ' + zR + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		}
 	}
 	else if(leftIsInfinity === 0 && rightIsInfinity === 1){
 
-		zL=zLeft.toFixed(2)
-		context.fillText('P(z > ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		zL=niceRound(zLeft);
+		if (zL === '0'){
+			context.fillText('P(z > 0) = 0.5000', 0.67*width, 0.12*height+80);
+		}
+		else{
+			context.fillText('P(z > ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		}
 	}
 	else if(leftIsInfinity === 0 && rightIsInfinity === -1){
 
-		zL=zLeft.toFixed(2)
-		context.fillText('P(z < ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		zL=niceRound(zLeft);
+		if (zL === '0'){
+			context.fillText('P(z < 0) = 0.5000', 0.67*width, 0.12*height+80);
+		}
+		else{
+			context.fillText('P(z < ' + zL + ') = ' + evaluateArea(zLeft,zRight).toFixed(4), 0.67*width, 0.12*height+80);
+		}
 	}
 	else{
 
-		context.fillText('P(-∞ < z < ∞) = 1.0000', 0.64*width, 0.12*height+80);	
+		context.fillText('P(-∞ < z < ∞) = 1.0000', 0.66*width, 0.12*height+80);	
 	}
 }
 
