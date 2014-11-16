@@ -61,11 +61,13 @@ var ypos = 0;
 var leftIsInfinity = 0;
 var rightIsInfinity = 0;
 
+//Approximation of the logarithm of the gamma function
 function logGamma(x){
 	s=1+76.18009173/x-86.50532033/(x+1)+24.01409822/(x+2)-1.231739516/(x+3)+.00120858003/(x+4)-.00000536382/(x+5);
 	return (x-.5)*Math.log(x+4.5)-(x+4.5)+Math.log(s*2.50662827465);
 }
 
+//Approximation of the incomplete beta function via continued fractions
 function incBeta(X,A,B){
 	A0=0;
 	B0=1;
@@ -95,13 +97,11 @@ function tDistCumProb(x,df){
 	s=a+0.5;
 	z=df/(df+x*x);
 	bt =  Math.exp(logGamma(s)-logGamma(0.5)-logGamma(a)+a*Math.log(z)+0.5*Math.log(1-z));
-	if(z<(a+1)/(s+2)){
-		betaCdf=bt*incBeta(z,a,0.5);
-	} 
-	else{
-		betaCdf=1-bt*incBeta(1-z,0.5,a);
+	betaCdf=bt*incBeta(z,a,0.5);
+	if(x==0){
+		return 0.5;
 	}
-	if(x<0){
+	else if(x<0){
 		tCdf=betaCdf/2;
 	}
 	else{
@@ -443,10 +443,10 @@ function draw(){
 		zL=niceRound(zL);
 
 		if (zL === '0'){
-			context.fillText('P(0 < t < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.635*width, 0.12*height+80);
+			context.fillText('P(0 < t < ' + zR + ') = ' + evaluateArea(0,zR,df).toFixed(4), 0.635*width, 0.12*height+80);
 		}
 		else if (zR === '0'){
-			context.fillText('P(' + zL + ' < t < 0) = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.635*width, 0.12*height+80);
+			context.fillText('P(' + zL + ' < t < 0) = ' + evaluateArea(zL,0,df).toFixed(4), 0.635*width, 0.12*height+80);
 		}
 		else{
 			context.fillText('P(' + zL + ' < t < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.635*width, 0.12*height+80);
