@@ -250,7 +250,7 @@ function draw(){
 	context.font = "bold 22px sans-serif";
 	context.textAlign = "center";
 	context.fillStyle = '#FF0000';
-	if(df == 1000){
+	if(df == 10000){
 		context.fillText('Degrees of Freedom: ∞', 190, height-350);
 	}
 	else{
@@ -506,7 +506,7 @@ function mouseMoveHandler(event){
 		dfPixel = mouseX;
 		df = Math.round(-14 + dfPixel/300*dfRange);
 		if(df == 101){
-			df = 1000;
+			df = 10000;
 		}
 		draw();
 	}
@@ -540,7 +540,7 @@ function mouseClickHandler(event){
 			dfPixel = mouseX;
 			df = Math.round(-14 + dfPixel/300*dfRange);
 			if(df == 101){
-				df = 1000;
+				df = 10000;
 			}
 		}
 		else{
