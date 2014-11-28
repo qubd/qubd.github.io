@@ -538,8 +538,18 @@ function mouseClickHandler(event){
 			isStuckR = true;
 
 			dfPixel = mouseX;
+			if(dfPixel < 45){
+				dfPixel = 45;
+			}
+			if(dfPixel > 345){
+				dfPixel = 345;
+			}
+
 			df = Math.round(-14 + dfPixel/300*dfRange);
-			if(df == 101){
+			if(df <= 1){
+				df = 1;
+			}
+			if(df >= 101){
 				df = 10000;
 			}
 		}
