@@ -192,8 +192,8 @@ function niceRound(n){
 }
 
 function draw(){
-	
-	mycanvas.width=mycanvas.width;
+
+	mycanvas.width = mycanvas.width;
 	
 	fillCenter(0,1,zPixelLeft,zPixelRight,"#21ADDB");
 	drawNormDist(0,1, "#2B65EC");
@@ -441,7 +441,7 @@ function mouseMoveHandler(event){
 		draw();
 	}
 	//If the right point was clicked
-	if (!isStuckR) {
+	else if (!isStuckR) {
 		zPixelRight = mouseX;
 		zRight = zMin + zPixelRight/width*zRange;
 		draw();
@@ -493,16 +493,30 @@ function mouseClickHandler(event){
 		}
 	}
 }	
+
+function mouseUnClickHandler(event){
+
+	//If the mouse button is released, stick both points
+	isStuckL = true;
+	isStuckR = true;
+}
  
 $(document).ready(function(){
 	
 	var canvas = $('#canvas');
 	canvas.bind('mousemove', mouseMoveHandler);
-	canvas.bind('click', mouseClickHandler);
+	canvas.bind('mousedown', mouseClickHandler);
+	canvas.bind('mouseup', mouseUnClickHandler);
 	draw();
 
 	$('#canvas').mousemove(function(e){
     		mouseX = e.pageX-$('#canvas').offset().left;
+
+    		if(mouseX < 1 || mouseX > 998){
+			//If the mouse moves off the canvas, stick all points
+			isStuckL = true;
+			isStuckR = true;
+		}
 	});
 }); 
  
