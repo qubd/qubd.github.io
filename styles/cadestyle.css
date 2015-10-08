@@ -6,7 +6,7 @@ padding: 0px;
 color: #414140; /*bbbec4*/
 background-color: #d4d4d2; /* 2d2f35 */
 /*ackground-image: url('../files/genpat2.jpg');*/
-font: normal 12px "Lucida", sans-serif;
+font: normal 14px "Lucida", sans-serif;
 /* crazy  background-color: red; */
 }
 
@@ -16,14 +16,14 @@ font: normal 12px "Lucida", sans-serif;
 background-image: url('../files/bg_hide.gif');
 width:790px;
 margin-left:auto;
-margin-right: auto;	
+margin-right: auto;
 margin-top:20px;
 
 /* crazy  background-color: blue; */
 }
 
 #header_main{
-/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/ 
+/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/
 height:55px;
 width: 427px;
 text-align:left;
@@ -35,7 +35,7 @@ float:left;
 }
 
 #header_mini{
-/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/ 
+/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/
 height:55px;
 width:251px;
 padding: 8px;
@@ -207,7 +207,7 @@ td { vertical-align: middle; text-align: left; }
 
 #menu_column a, a:link a:visited{
 color: #544b2c;/*#bbbec4*/
-font-size:11px;
+font-size:12px;
 font-weight:bold;
 text-decoration:none;}
 
@@ -222,7 +222,7 @@ color:#f66622;}
 a:hover{
 color:#f66622;}
 
-#menu_column img{ 
+#menu_column img{
 border: 1px solid #666688;
 /*padding: 5px;*/
 margin-bottom: 15px;}
@@ -248,8 +248,8 @@ color: #f66622;
 }
 
 
-/*#header_mini img{ 
-border: 3px double black; 
+/*#header_mini img{
+border: 3px double black;
 margin-bottom: 15px;}*/
 
 
