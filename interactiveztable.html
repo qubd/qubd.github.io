@@ -75,7 +75,7 @@ function stdNormCumProb(x){
 	}
 }
 
-function normPdf(x, m,s){
+function normPdf(x,m,s){
 	return 0.39894228/s*Math.exp(-0.5*((x-m)/s)*((x-m)/s));
 }
 
@@ -192,9 +192,8 @@ function niceRound(n){
 }
 
 function draw(){
-
-	//Do not remove this line, bad things happen
-	mycanvas.width = mycanvas.width;
+	
+	mycanvas.width=mycanvas.width;
 	
 	fillCenter(0,1,zPixelLeft,zPixelRight,"#21ADDB");
 	drawNormDist(0,1, "#2B65EC");
@@ -442,7 +441,7 @@ function mouseMoveHandler(event){
 		draw();
 	}
 	//If the right point was clicked
-	else if (!isStuckR) {
+	if (!isStuckR) {
 		zPixelRight = mouseX;
 		zRight = zMin + zPixelRight/width*zRange;
 		draw();
@@ -497,7 +496,7 @@ function mouseClickHandler(event){
 
 function mouseUnClickHandler(event){
 
-	//If the mouse button is released, stick both points
+	//Both points now stuck
 	isStuckL = true;
 	isStuckR = true;
 }
@@ -508,16 +507,13 @@ $(document).ready(function(){
 	canvas.bind('mousemove', mouseMoveHandler);
 	canvas.bind('mousedown', mouseClickHandler);
 	canvas.bind('mouseup', mouseUnClickHandler);
+	canvas.bind('touchmove', mouseMoveHandler);
+	canvas.bind('touchstart', mouseClickHandler);
+	canvas.bind('touchend', mouseUnClickHandler);
 	draw();
 
 	$('#canvas').mousemove(function(e){
     		mouseX = e.pageX-$('#canvas').offset().left;
-
-    		if(mouseX < 1 || mouseX > 998){
-			//If the mouse moves off the canvas, stick all points
-			isStuckL = true;
-			isStuckR = true;
-		}
 	});
 }); 
  
