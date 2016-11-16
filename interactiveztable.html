@@ -507,31 +507,12 @@ $(document).ready(function(){
 	canvas.bind('mousemove', mouseMoveHandler);
 	canvas.bind('mousedown', mouseClickHandler);
 	canvas.bind('mouseup', mouseUnClickHandler);
-	canvas.bind('touchmove', mouseMoveHandler);
-	canvas.bind('touchstart', mouseClickHandler);
-	canvas.bind('touchend', mouseUnClickHandler);
 	draw();
 
 	$('#canvas').mousemove(function(e){
     		mouseX = e.pageX-$('#canvas').offset().left;
 	});
 });
-
-document.body.addEventListener("touchstart", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
-document.body.addEventListener("touchend", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
-document.body.addEventListener("touchmove", function (e) {
-  if (e.target == canvas) {
-    e.preventDefault();
-  }
-}, false);
 
 </script>
 
