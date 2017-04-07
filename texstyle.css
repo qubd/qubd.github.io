@@ -1,0 +1,294 @@
+/* CSS Document */
+
+body {
+margin: 0px;
+padding: 0px;
+color: #414140; /*bbbec4*/
+background-color: #d4d4d2; /* 2d2f35 */
+/*ackground-image: url('../files/genpat2.jpg');*/
+font: normal 13px "Lucida", sans-serif;
+/* crazy  background-color: red; */
+}
+
+/* ------------------------ Header Stuff --------------------------------- */
+
+#header_holder{
+background-image: url('../files/bg_hide.gif');
+width:790px;
+margin-left:auto;
+margin-right: auto;
+margin-top:20px;
+
+/* crazy  background-color: blue; */
+}
+
+#header_main{
+/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/
+height:55px;
+width: 427px;
+text-align:left;
+padding: 8px;
+padding-bottom: 20px;
+padding-left: 35px;
+float:left;
+/* background-color: yellow; */
+}
+
+#header_mini{
+/*background-color: #EDF1F7;*/ /*#DBE3F0; #EAF5FD;*/
+height:55px;
+width:251px;
+padding: 8px;
+padding-bottom: 20px;
+text-align:center;
+float:left;
+/* crazy  background-color: green;*/
+}
+
+#header_mini table {height:50px;margin-top:5px;
+margin-left:75px;}
+
+#header_mini td {vertical-align:bottom;}
+
+
+
+
+
+/* ----------------------------- Footer Stuff ---------------------------- */
+
+#footer{
+margin-top:0px;
+text-align:center;
+font-size:10px;
+padding: 5px;
+font-family:sans-serif;
+/* crazy  background-color: blue;*/
+}
+
+
+/* ----------------------------- Body Stuff ------------------------------ */
+
+
+
+
+#main_holder{
+width:790px;
+margin-left:auto;
+margin-right: auto;
+margin-top:0px;
+background-color: #d4d4d2;
+/* if you want to use img borders */
+background-image: url('../files/bg_main.gif') /*bg_main.gif = W:770 H:40 */
+}
+
+/* if you want to use img borders */
+#top_border{
+width:790px;
+height:8px;
+float:left;
+margin: 0px;
+padding: 0px;
+background-color: #d4d4d2;
+background-image: url('../files/bg_top.gif');
+border-top: 1px dotted #666688;
+}
+
+/* if you want to use img borders */
+#bot_border{
+width:790px;
+height:40px;
+float:left;
+margin: 0px;
+padding: 0px;
+background-image: url('../files/bg_bottom.gif');
+}
+
+#center_column_index{ /* if you want to use a third column */
+border-left:1px dotted #666688;
+border-right:1px dotted #666688;
+width:57%;
+float:left;
+padding-left: 2%;
+padding-right: 1%;
+padding-bottom: 5px;
+/* crazy background-color: purple; */
+}
+
+#center_column{
+border-right:1px dotted #666688;
+/*background: #d4d4d2;*/
+width: 580px;
+float:left;
+padding-left: 25px;
+padding-right: 15px;
+padding-bottom: 10px;
+ /*crazy  background-color: purple;*/
+}
+
+
+
+#menu_column{
+/*background-color: #d4d4d2;*/
+width:125px;
+float:left;
+padding-top: 0px;
+padding-left: 22px;
+padding-right: 10px;
+padding-bottom: 3%;
+color: #544b2c; /*#666688;*/
+font-size:11px;
+height: 100%;
+}
+
+
+#third_column{
+width:12%;
+float:left;
+padding-left: 2%;
+padding-right: 1%;
+/*padding-bottom: 3%;*/
+ /*crazy  background-color: green;*/
+}
+
+
+div.figure {
+  float: right;
+/*  border: thin silver solid; */
+/*  background-color: black;*/
+  width: 220px;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
+div.minibox {
+width : 37em;
+/*background-color: #494d57;*/
+border : 2px dotted #494d57;
+margin : 20px auto 20px auto;
+padding : 5px 20px 5px 20px;
+}
+
+
+
+/* ----------------------- Tags ------------------------------------------ */
+
+/*.img-top{
+border: 1px solid silver; margin-top: 10px; margin-left:0px;}*/
+
+h1{
+font-size: 36px;
+font-family: sans-serif;
+font-weight:bold;
+color: #544b2c; /*white*/
+margin:0px;
+padding-top:15px;
+letter-spacing:-2px;}
+
+h2{
+font-size:20px;
+font-weight:lighter;
+color: #544b2c; /*white*/
+margin-top:10px;
+margin-bottom:0px;
+}
+
+h3{
+/*text-transform: uppercase;*/
+font-size:15px;
+font-variant:small-caps;
+color: #544b2c; /*white*/
+/*background-image:url(images/dots_underline.gif);
+background-repeat:repeat-x;
+background-position: 0px 16px;*/
+}
+
+
+td { vertical-align: middle; text-align: left; }
+
+#menu_column a, a:link a:visited{
+color: #544b2c;/*#bbbec4*/
+font-size:12px;
+font-weight:bold;
+text-decoration:none;}
+
+a, a:link, a:visited{
+color:#aa4618;
+text-decoration:none;}
+
+
+#menu_column a:hover{
+color:#f66622;}
+
+a:hover{
+color:#f66622;}
+
+#menu_column img{
+border: 1px solid #666688;
+/*padding: 5px;*/
+margin-bottom: 15px;}
+
+#header_mini a{
+font-size: 8pt;
+color: #aa4618; /*#c0d600;*/ /*#E68300;*/ /*#0D3257;*/
+}
+
+#header_main a{
+text-decoration: none;
+font-size: 40px;
+font-family: sans-serif; /* this is where you change the title font */
+color: #C1501B; /*#c0d600;*/ /*#E68300;*/ /*#0D3257;*/
+font-weight:bold;
+margin:0px;
+padding-top:15px;
+letter-spacing:-2px;
+}
+
+#header_holder a:hover{
+color: #f66622;
+}
+
+
+/*#header_mini img{
+border: 3px double black;
+margin-bottom: 15px;}*/
+
+
+#center_column_index ul{
+/*margin-left:-15px;*/
+list-style-type:square;
+}
+
+#center_column_index li{
+margin-bottom: 6px;
+}
+
+#center_column ul{
+/*margin-left:-15px;*/
+list-style-type:square;
+}
+
+#center_column li{
+margin-bottom: 6px;
+}
+
+
+#menu_column ul{
+list-style-type: none;
+/*margin-left:-15px;*/
+}
+
+#footer a{
+font-size: 10px;
+color:#aa4618;
+}
+
+div.figure p {
+  text-align: center;
+  font-style: italic;
+  font-size: smaller;
+  text-indent: 0;
+  color: #444444;
+}
+
+div.figure img { border: 1px black;} /*solid silver */
+
