@@ -16,7 +16,7 @@ Your browser does not support the canvas element.
 </canvas>
 </center>
 
-<script type="text/javascript" src="jquery-1.5.1.min.js"></script> 
+<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
 <script type="text/javascript" src="jquery-ui-1.8.12.custom.min.js"></script>
 <link href="jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css"/>
 
@@ -92,7 +92,8 @@ function incBeta(X,A,B){
 	return A1/A;
 }
 
-function tDistCumProb(x,df){
+function tDistCumProb(t,df){
+	x=Math.round(100*t)/100;
 	a=df/2;
 	s=a+0.5;
 	z=df/(df+x*x);
@@ -115,22 +116,22 @@ function tPdf(x,df){
 }
 
 function drawtDist(df,colour){
-	
+
 	context.lineWidth = 3;
 	context.strokeStyle = colour;
-	
+
 	var y = tPdf(zMin,df);
 	var yPixel = (height-7)*(1 - y/yMax);
-	
+
 	context.beginPath();
 	context.moveTo(0,yPixel);
-	
+
 	for(i=0; i<=width; i++){
-	
+
 		var z = zMin + i/width*zRange;
 		y = tPdf(z,df);
 		yPixel = (height-7)*(1 - y/yMax);
-		
+
 		context.lineTo(i,yPixel);
 	}
 	context.stroke();
@@ -147,14 +148,14 @@ function fillCenter(zL,zR,df,colour){
 		zL = zR;
 		zR = tmp;
 	}
-	
+
 	//Fill from left to right
 	for(i=zL; i<=zR; i++){
-	
+
 		var z = zMin + i/width*zRange;
 		var y = tPdf(z,df);
 		var yPixel = (height-7)*(1 - y/yMax);
-		
+
 		context.beginPath();
 		context.moveTo(i, yPixel);
 		context.lineTo(i, height-7);
@@ -227,9 +228,9 @@ function niceRound(n){
 }
 
 function draw(){
-	
+
 	mycanvas.width=mycanvas.width;
-	
+
 	fillCenter(zPixelLeft,zPixelRight,df,"#21ADDB");
 	drawtDist(df,"#2B65EC");
 
@@ -247,7 +248,7 @@ function draw(){
 	context.lineTo(345, height-405);
 	context.stroke();
 
-	context.font = "bold 22px sans-serif";
+	context.font = "22px italic";
 	context.textAlign = "center";
 	context.fillStyle = '#FF0000';
 	if(df == 10000){
@@ -263,7 +264,7 @@ function draw(){
 	context.arc(dfPixel, height-400, 1, 0, Math.PI * 2, false);
 	context.closePath();
 	context.stroke();
-	
+
 	//Draw Axis
 	context.lineWidth=4;
 	context.strokeStyle = "#000";
@@ -271,10 +272,10 @@ function draw(){
 	context.moveTo(0,height-5);
 	context.lineTo(width, height-5);
 	context.stroke();
-	
+
 	//Left point at -infinity
 	if(zPixelLeft < 20){
-		
+
 		if(zPixelRight > width-20){
 
 			drawFullAxis();
@@ -296,7 +297,7 @@ function draw(){
 			rightIsInfinity = 0;
 
 			//Write the z value underneath
-			context.font = "bold 22px sans-serif";
+			context.font = "22px italic";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
 			context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
@@ -326,7 +327,7 @@ function draw(){
 			rightIsInfinity = -1;
 
 			//Write the z value underneath
-			context.font = "bold 22px sans-serif";
+			context.font = "22px italic";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
 			context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
@@ -357,7 +358,7 @@ function draw(){
 			rightIsInfinity = 0;
 
 			//Write the z value underneath
-			context.font = "bold 22px sans-serif";
+			context.font = "22px italic";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
 			context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
@@ -387,7 +388,7 @@ function draw(){
 			rightIsInfinity = 1;
 
 			//Write the z value underneath
-			context.font = "bold 22px sans-serif";
+			context.font = "22px italic";
 			context.textAlign = "center";
 			context.fillStyle = '#FF0000';
 			context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
@@ -406,25 +407,25 @@ function draw(){
 		rightIsInfinity = 0;
 
 		//Write the z values underneath
-		context.font = "bold 22px sans-serif";
+		context.font = "22px italic";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
 		context.fillText(niceRound(zLeft), zPixelLeft, 0.95*height + 80);
 
-		context.font = "bold 22px sans-serif";
+		context.font = "22px italic";
 		context.textAlign = "center";
 		context.fillStyle = '#FF0000';
 		context.fillText(niceRound(zRight), zPixelRight, 0.95*height + 80);
 	}
-	
+
 	context.strokeStyle = '#FF0000';
 	context.stroke();
-	
+
 	context.fillStyle = '#FF0000';
 	context.fill();
 
 	//Write the value of the blue area
-	context.font = "bold 28px sans-serif";
+	context.font = "28px italic";
 	context.textAlign = "left";
 	context.fillStyle = "#21ADDB";
 
@@ -494,13 +495,13 @@ function draw(){
 	}
 	else{
 
-		context.fillText('P(-∞ < t < ∞) = 1.0000', 0.66*width, 0.12*height+80);	
+		context.fillText('P(-∞ < t < ∞) = 1.0000', 0.66*width, 0.12*height+80);
 	}
 }
 
 
 function mouseMoveHandler(event){
-	
+
 	//If the df slider was clicked
 	if (!isStuckdf && (Math.abs((mouseX) - 195) < 150)) {
 		dfPixel = mouseX;
@@ -569,7 +570,7 @@ function mouseClickHandler(event){
 		isStuckR = false;
 		zPixelRight = mouseX;
 		zRight = zMin + zPixelRight/width*zRange;
-		
+
 		draw();
 	}
 	//Otherwise there is no ambiguity as to which point was clicked
@@ -580,7 +581,7 @@ function mouseClickHandler(event){
 			isStuckL = false;
 			zPixelLeft = mouseX;
 			zLeft = zMin + zPixelLeft/width*zRange;
-		
+
 			draw();
 		}
 		//Otherwise, keep the point stuck
@@ -595,7 +596,7 @@ function mouseClickHandler(event){
 			isStuckR = false;
 			zPixelRight = mouseX;
 			zRight = zMin + zPixelRight/width*zRange;
-		
+
 			draw();
 		}
 		//Otherwise, keep the point stuck
@@ -604,7 +605,7 @@ function mouseClickHandler(event){
 			isStuckR = true;
 		}
 	}
-}	
+}
 
 function mouseUnClickHandler(event){
 
@@ -613,9 +614,9 @@ function mouseUnClickHandler(event){
 	isStuckR = true;
 	isStuckdf = true;
 }
- 
+
 $(document).ready(function(){
-	
+
 	var canvas = $('#canvas');
 	canvas.bind('mousemove', mouseMoveHandler);
 	canvas.bind('mousedown', mouseClickHandler);
@@ -633,8 +634,8 @@ $(document).ready(function(){
 			isStuckdf = true;
 		}
 	});
-}); 
- 
+});
+
 </script>
 
 </body>
