@@ -444,58 +444,58 @@ function draw(){
 		zL=niceRound(zL);
 
 		if (zL === '0'){
-			context.fillText('P(0 < t < ' + zR + ') = ' + evaluateArea(0,zR,df).toFixed(4), 0.635*width, 0.12*height+80);
+			context.fillText('P(0 < T < ' + zR + ') = ' + evaluateArea(0,zR,df).toFixed(4), 0.635*width, 0.12*height+80);
 		}
 		else if (zR === '0'){
-			context.fillText('P(' + zL + ' < t < 0) = ' + evaluateArea(zL,0,df).toFixed(4), 0.635*width, 0.12*height+80);
+			context.fillText('P(' + zL + ' < T < 0) = ' + evaluateArea(zL,0,df).toFixed(4), 0.635*width, 0.12*height+80);
 		}
 		else{
-			context.fillText('P(' + zL + ' < t < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.635*width, 0.12*height+80);
+			context.fillText('P(' + zL + ' < T < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.635*width, 0.12*height+80);
 		}
 	}
 	else if(leftIsInfinity === -1 && rightIsInfinity === 0){
 
 		zR=niceRound(zRight);
 		if (zR === '0'){
-			context.fillText('P(t < 0) = 0.5000', 0.67*width, 0.12*height+80);
+			context.fillText('P(T < 0) = 0.5000', 0.67*width, 0.12*height+80);
 		}
 		else{
-			context.fillText('P(t < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
+			context.fillText('P(T < ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
 		}
 	}
 	else if(leftIsInfinity === 1 && rightIsInfinity === 0){
 
 		zR=niceRound(zRight);
 		if (zR === '0'){
-			context.fillText('P(t > 0) = 0.5000', 0.67*width, 0.12*height+80);
+			context.fillText('P(T > 0) = 0.5000', 0.67*width, 0.12*height+80);
 		}
 		else{
-			context.fillText('P(t > ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
+			context.fillText('P(T > ' + zR + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
 		}
 	}
 	else if(leftIsInfinity === 0 && rightIsInfinity === 1){
 
 		zL=niceRound(zLeft);
 		if (zL === '0'){
-			context.fillText('P(t > 0) = 0.5000', 0.67*width, 0.12*height+80);
+			context.fillText('P(T > 0) = 0.5000', 0.67*width, 0.12*height+80);
 		}
 		else{
-			context.fillText('P(t > ' + zL + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
+			context.fillText('P(T > ' + zL + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
 		}
 	}
 	else if(leftIsInfinity === 0 && rightIsInfinity === -1){
 
 		zL=niceRound(zLeft);
 		if (zL === '0'){
-			context.fillText('P(t < 0) = 0.5000', 0.67*width, 0.12*height+80);
+			context.fillText('P(T < 0) = 0.5000', 0.67*width, 0.12*height+80);
 		}
 		else{
-			context.fillText('P(t < ' + zL + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
+			context.fillText('P(T < ' + zL + ') = ' + evaluateArea(zLeft,zRight,df).toFixed(4), 0.67*width, 0.12*height+80);
 		}
 	}
 	else{
 
-		context.fillText('P(-∞ < t < ∞) = 1.0000', 0.66*width, 0.12*height+80);
+		context.fillText('P(-∞ < T < ∞) = 1.0000', 0.66*width, 0.12*height+80);
 	}
 }
 
